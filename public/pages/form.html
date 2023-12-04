@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title></title>
+          <link rel="shortcut icon" href="/public/img/IsotipoVG.png" type="image/x-icon" />
+
+          <!--fuente-->
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
+
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+          <link rel="stylesheet" href="/public/css/bootstrap.min.css" />
+          <link rel="stylesheet" href="/public/css/menu.css" />
+          <link rel="stylesheet" href="/public/css/form.css">
+</head>
+
+<body>
+          <header class="header">
+                    <a href="./" class="logo">
+                              <img src="/public/img/IsotipoVG.png" alt="Logo" />
+                    </a>
+                    <input class="menu-btn" type="checkbox" id="menu-btn" />
+                    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+                    <ul class="menu">
+                              <li>
+                                        <a class="menu-item" href="/">Inicio</a>
+                              </li>
+                              <li>
+                                        <a class="menu-item" href="/form">
+                                                  <i class="bi bi-person-circle"></i>
+                                                  Registrar estudiante</a>
+                              </li>
+                              <li>
+                                        <a class="menu-item" href="/login">Iniciar Sesion</a>
+                              </li>
+                    </ul>
+          </header>
+          <section>
+                    <div class="container">
+                              <div class="form-image">
+                                        <img src="/public/img/IsotipoVG.png" alt="logo_VG" />
+                              </div>
+
+                              <div class="form-content">
+                                        <form id="form" action="/enviar-form" method="POST"
+                                                  onsubmit="return validateForm()">
+                                                  <div class="formulario">
+                                                            <h2>Bienvenidos</h2>
+
+                                                            <label class="opciones" for="opcion-sistemas">Análisis de
+                                                                      Sistemas</label>
+                                                            <input type="radio" name="Carrera" id="opcion-sistemas"
+                                                                      value="analisis-sistemas" required />
+
+                                                            <label class="opciones" for="opcion-agraria">Producción
+                                                                      Agraria</label>
+                                                            <input type="radio" name="Carrera" id="opcion-agraria"
+                                                                      value="produccion-agraria" required />
+
+                                                            <div class="input-group">
+                                                                      <label for="nombres">Nombres</label>
+                                                                      <input type="text" name="Nombres" id="nombres"
+                                                                                placeholder="Nombres Completos"
+                                                                                pattern="[a-zA-Z ]+"
+                                                                                title="Ingrese solo letras en este campo"
+                                                                                required />
+
+                                                                      <label for="apellidos">Apellidos</label>
+                                                                      <input type="text" name="Apellidos" id="apellidos"
+                                                                                placeholder="Apellidos Completos"
+                                                                                pattern="[a-zA-Z ]+"
+                                                                                title="Ingrese solo letras en este campo"
+                                                                                required />
+
+                                                                      <label for="dni">Número de DNI</label>
+                                                                      <input type="text" name="DNI" id="dni"
+                                                                                placeholder="Número de DNI"
+                                                                                pattern="[0-9]{8}"
+                                                                                title="Ingrese un número de DNI válido de 8 dígitos"
+                                                                                required />
+
+                                                                      <label for="fecha-nacimiento">Fecha de
+                                                                                Nacimiento</label>
+                                                                      <input type="date" name="FechaNacimiento"
+                                                                                id="fecha-nacimiento" required />
+
+                                                                      <label for="email">Correo Institucional</label>
+                                                                      <input type="email" name="CorreoInstitucional"
+                                                                                id="email"
+                                                                                placeholder="Ingrese su correo institucional"
+                                                                                required />
+
+                                                                      <label for="contrasena">Contraseña</label>
+                                                                      <input type="password" name="Contrasena"
+                                                                                id="contrasena"
+                                                                                placeholder="Ingrese su contraseña"
+                                                                                required />
+                                                            </div>
+
+                                                            <a href="#">¿Olvidó su contraseña?</a>
+                                                            <div class="terminos">
+                                                                      <input type="checkbox" name="politica_privacidad"
+                                                                                id="check" required />
+                                                                      <label for="check">Acepta los Términos y
+                                                                                Condiciones</label>
+                                                            </div>
+
+                                                            <button type="submit">Registrarme</button>
+                                                  </div>
+                                        </form>
+                              </div>
+                    </div>
+          </section>
+          <script>
+                    function validateForm() {
+                              // Validación JavaScript para comprobar si todos los campos están llenos
+                              var inputs = document.querySelectorAll('input[required]');
+                              for (var i = 0; i < inputs.length; i++) {
+                                        if (!inputs[i].value.trim()) {
+                                                  alert("Por favor, complete todos los campos.");
+                                                  return false;
+                                        }
+                              }
+                              return true;
+                    }
+          </script>
+          <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                              const form = document.getElementById('form'); // Reemplaza 'tuFormulario' con el ID de tu formulario
+                              form.addEventListener('submit', async function (event) {
+                                        event.preventDefault();
+
+                                        // Envía la solicitud POST al servidor
+                                        const response = await fetch('/enviar-form', {
+                                                  method: 'POST',
+                                                  headers: {
+                                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                                  },
+                                                  body: new URLSearchParams(new FormData(form)),
+                                        });
+
+                                        // Verifica el estado de la respuesta del servidor
+                                        if (response.ok) {
+                                                  // Si la respuesta es exitosa, muestra una alerta
+                                                  alert('Datos registrados exitosamente');
+                                                  // Redirige al usuario a la página principal
+                                                  window.location.href = '/';
+                                        } else {
+                                                  // Maneja el caso en que la respuesta no es exitosa
+                                                  alert('Error al registrar los datos');
+                                        }
+                              });
+                    });
+          </script>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+          <script src="/public/js/nav.js"></script>
+
+</body>
+
+</html>
